@@ -1,0 +1,207 @@
+/* estilos.css */
+
+/* Fondo y fuente general */
+body {
+  font-family: 'Montserrat', sans-serif;
+  background-color: #f8f9fa;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Colores del logo */
+.play {
+  color: #d62a00;
+}
+
+.code {
+  color: #333;
+}
+
+/* Contenedor del formulario */
+.contenedor-registro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Título */
+.titulo {
+  font-weight: 700;
+  text-align: center;
+}
+
+/* Etiquetas de los campos */
+.etiqueta {
+  font-weight: 600;
+}
+
+/* Campos de texto */
+.campo-texto {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 0.3rem;
+  border: 1px solid #ccc;
+}
+
+/* Botón de registrar */
+.boton-registrar {
+  background-color: #d62a00;
+  color: white;
+  font-weight: 600;
+  padding: 0.5rem 1.5rem;
+  border-radius: 0.3rem;
+  text-decoration: none;
+  margin-top: 1rem;
+  display: inline-block;
+  transition: background-color 0.3s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.boton-registrar:hover {
+  background-color: #a11a00;
+  color: white;
+}
+
+/* Alertas */
+.alerta {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+/* Formularios */
+.formulario-registro {
+  background-color: white;
+  border-radius: 0.5rem;
+  padding: 2rem;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+/* Correcto: aplica directamente a los botones */
+.btn-playcode {
+  background-color: #d62a00;
+  color: white;
+  font-weight: 600;
+  padding: 0.5rem 1.5rem;
+  border-radius: 0.3rem;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-playcode:hover,
+.btn-playcode:focus {
+  background-color: #a11a00;
+  color: white;
+}
+
+
+/* Tarjetas/tableros */
+.tablero {
+  background-color: white;
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  min-height: 300px;
+}
+
+/* Inputs de formulario */
+.tablero input[type="text"] {
+  border-radius: 0.3rem;
+  border: 1px solid #ccc;
+  padding: 0.5rem;
+}
+
+/* Mensajes de alerta */
+.alert {
+  font-weight: 600;
+}
+
+/* Footer consistente */
+footer {
+  background-color: #d62a00;
+  color: white;
+  text-align: center;
+  padding: 1rem 0;
+  margin-top: auto;
+}
+
+.boton-inicioregistro {
+  background-color: #d62a00;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1.5rem;
+  border-radius: 5px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: background 0.2s;
+  margin-bottom: 0.5rem;
+  display: inline-block;
+  cursor: pointer;
+}
+.boton-inicioregistro:hover {
+  background-color: #a11a00;
+  color: #fff;
+  text-decoration: none;
+}
+
+/* Sección de empresa */
+.seccion-empresa {
+    background-color: #f0fdff;
+    padding: 3rem 2rem;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.05);
+    margin-bottom: 2rem;
+}
+
+.seccion-empresa h3 {
+    color: #000000;
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+.seccion-empresa p {
+    font-size: 1rem;
+    line-height: 1.6;
+    text-align: justify;
+}
+
+/* Misión y visión */
+.mision-vision .col-md-6 {
+    background-color: #e7fafe;
+    padding: 1.5rem;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.mision-vision h4 {
+    color: #000000;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+/* Opiniones de usuarios */
+.opiniones .card {
+    border: none;
+    border-radius: 15px;
+    background: linear-gradient(135deg, #c9e8f9, #73839a);
+    color: white;
+    padding: 1.5rem;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.opiniones .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.opiniones .card-text {
+    font-size: 0.95rem;
+}
+.opiniones strong {
+    font-weight: 700;
+}
