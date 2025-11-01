@@ -20,8 +20,9 @@
         </div>
     @endif
 
-    <form method="POST" action="{{ url('/iniciosesion') }}" class="formulario-registro col-md-6 mx-auto">
-        @csrf
+   <form method="POST" action="{{ route('login.store') }}" class="formulario-registro col-md-6 mx-auto">
+    @csrf
+    
         <div class="mb-3">
             <label for="correo" class="etiqueta">Correo electrónico</label>
             <input type="email" name="correo" id="correo" class="campo-texto" required value="{{ old('correo') }}">

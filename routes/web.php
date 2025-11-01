@@ -1,75 +1,60 @@
-
-
-
-
-
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Http\Request;
 
-// Página de inicio
-Route::get('/', function () {
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\PartidaController;
+
+// --------------------
+// Rutas públicas
+// --------------------
+
+// Página principal
+Route::get('/', function() {
     return view('home');
 })->name('home');
 
-// Página de juego / tablero
-Route::get('/jugar', function () {
-    $nombre = 'Usuario'; // O traer desde auth/session
-    return view('juego', compact('nombre'));
-})->name('jugar');
+// Registro de jugadores
+Route::get('/registro', [RegisterController::class, 'create'])->name('registro');
+Route::post('/registro', [RegisterController::class, 'store'])->name('registro.store');
 
-// Crear partida
-Route::post('/crear-partida', function (Request $request) {
-    // Generar código de partida
-    $codigoPartida = strtoupper(substr(bin2hex(random_bytes(3)), 0, 6));
+// Login de jugadores normales
+Route::get('/iniciosesion', [AuthController::class, 'showLogin'])->name('iniciosesion');
+Route::post('/iniciosesion', [AuthController::class, 'login'])->name('login.store');
 
-    // Guardar en sesión (opcional)
-    $request->session()->put('codigoPartida', $codigoPartida);
+// Login de admin
+Route::get('/sesionadmin', [AuthController::class, 'showAdminLogin'])->name('sesionadmin');
+Route::post('/sesionadmin', [AuthController::class, 'loginAdmin'])->name('login.admin');
 
-    // Redirigir a trackeo
-    return redirect()->route('trackeo', ['codigoPartida' => $codigoPartida]);
-})->name('crear_partida');
+// Logout para todos
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// Unirse a partida
-Route::post('/unirse-partida', function (Request $request) {
-    $codigoPartida = $request->input('codigo_partida');
+// --------------------
+// Rutas protegidas por admin
+// --------------------
+Route::middleware(['auth', 'isAdmin'])->group(function() {
+    Route::get('/admin', [UserController::class, 'index'])->name('admin'); // inicioadmin
+    Route::get('/admin/crearusuario', [UserController::class, 'create'])->name('usuarios.create');
+    Route::post('/admin/crearusuario', [UserController::class, 'store'])->name('usuarios.store');
+    Route::get('/admin/{id}/editar', [UserController::class, 'edit'])->name('usuarios.edit');
+    Route::put('/admin/{id}', [UserController::class, 'update'])->name('usuarios.update');
+    Route::get('/admin/{id}', [UserController::class, 'show'])->name('usuarios.show');
+    Route::delete('/admin/{id}', [UserController::class, 'destroy'])->name('usuarios.destroy');
+});
 
-    if (!$codigoPartida) {
-        return back()->with('mensajeUnirse', 'Debe ingresar un código de partida.');
-    }
+// --------------------
+// Rutas protegidas por jugadores logueados
+// --------------------
+Route::middleware(['auth'])->group(function() {
+    Route::get('/crear', [PartidaController::class, 'formCrear'])->name('crear.partida'); // crear partida
+    Route::post('/crear', [PartidaController::class, 'guardar'])->name('partidas.guardar'); 
+    Route::get('/trackeo/{codigoPartida}', [PartidaController::class, 'trackeo'])->name('trackeo'); 
+    Route::post('/finalizar-partida/{codigoPartida}', [PartidaController::class, 'finalizarPartida'])->name('finalizar.partida');
+});
 
-    // Guardar en sesión (opcional)
-    $request->session()->put('codigoPartida', $codigoPartida);
+Route::get('/login', function() {
+    return redirect()->route('iniciosesion');
+})->name('login');
 
-    // Redirigir a trackeo
-    return redirect()->route('trackeo', ['codigoPartida' => $codigoPartida]);
-})->name('unirse_partida');
-
-// Página de trackeo
-Route::get('/trackeo/{codigoPartida}', function ($codigoPartida) {
-    $animales = ['Serpiente', 'Camello', 'Conejo', 'Tortuga', 'Caracol', 'Ratón'];
-    return view('trackeo', compact('codigoPartida', 'animales'));
-})->name('trackeo');
-
-// Panel de usuario
-Route::get('/panel', function () {
-    $nombre = 'Usuario';
-    $partidas = []; // Reemplazar con datos reales
-    $estadisticas = [
-        'total_partidas' => 0,
-        'puntaje_maximo' => 0,
-        'puntaje_promedio' => 0
-    ];
-    return view('panel', compact('nombre','partidas','estadisticas'));
-})->name('panel');
-
-// Registro
-Route::get('/registro', function () {
-    return view('registro');
-})->name('registro');
-
-// Iniciar sesión
-Route::get('/iniciosesion', function () {
-    return view('iniciosesion');
-})->name('iniciosesion');
