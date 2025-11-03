@@ -9,7 +9,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('ranking', function (Blueprint $table) {
-            $table->foreignId('jugador_id')->primary()->constrained('jugadors');
+           $table->foreignId('jugador_id')->constrained('users');
             $table->integer('partidas_jugadas')->default(0);
             $table->integer('partidas_ganadas')->default(0);
             $table->integer('puntos_totales')->default(0);

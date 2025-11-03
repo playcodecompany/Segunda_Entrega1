@@ -7,7 +7,7 @@ use Illuminate\Auth\Middleware\Authenticate as Middleware;
 class Authenticate extends Middleware
 {
     /**
-     * Get the path the user should be redirected to when they are not authenticated.
+     * Define a qué ruta redirigir si el usuario no está autenticado.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return string|null
@@ -15,7 +15,7 @@ class Authenticate extends Middleware
     protected function redirectTo($request)
     {
         if (! $request->expectsJson()) {
-            // Si es ruta de admin
+            // Si es una ruta de admin
             if ($request->is('admin/*')) {
                 return route('sesionadmin');
             }

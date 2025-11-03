@@ -29,24 +29,28 @@
                     aria-controls="menuNav" aria-expanded="false" aria-label="Mostrar/Ocultar menú">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse justify-content-end" id="menuNav">
-                    <ul class="navbar-nav align-items-center">
-                        <li class="nav-item"><a class="nav-link active" href="{{ route('home') }}">Inicio</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ route('crear.partida') }}">Jugar</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ route('admin') }}">Panel</a></li>
-                        <li class="nav-item">
-                            <select class="form-select form-select-sm ms-3" onchange="cambiarIdioma(this.value)">
-                                <option value="es" selected>Español</option>
-                            </select>
-                        </li>
-                    </ul>
-                </div>
+                <div class="collapse navbar-collapse" id="menuNav">
+    <!-- Todo el menú a la derecha -->
+    <ul class="navbar-nav align-items-center ms-auto">
+        <li class="nav-item"><a class="nav-link active" href="{{ route('home') }}">Inicio</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ route('crear.partida') }}">Jugar</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ route('admin') }}">Panel</a></li>
+        <li class="nav-item">
+            <select class="form-select form-select-sm ms-3" onchange="cambiarIdioma(this.value)">
+                <option value="es" selected>Español</option>
+            </select>
+        </li>
+        <li class="nav-item nav-perfil ms-3">
+            <a class="nav-link" href="{{ route('perfil') }}">Mi perfil</a>
+        </li>
+    </ul>
+</div>
+
+
             </div>
         </nav>
     </header>
-
->>>>>>> a50c4ea (Actualizaciones del proyecto)
-
+    
 <main class="container my-5">
     @yield('content')
 </main>

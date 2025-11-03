@@ -11,7 +11,7 @@
                     <img src="{{ asset('imagenes/Animaldraft.png') }}" class="d-block w-100" alt="Imagen del juego Animaldraft" />
                 </div>
                 <div class="carousel-item">
-                    <img src="{{ asset('imagenes/tablero.jpeg') }}" class="d-block w-100" alt="Tablero del juego" />
+                    <img src="{{ asset('imagenes/tablero.png') }}" class="d-block w-100" alt="Tablero del juego" />
                 </div>
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#juegosCarrusel" data-bs-slide="prev">

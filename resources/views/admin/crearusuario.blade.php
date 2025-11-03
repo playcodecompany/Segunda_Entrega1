@@ -6,7 +6,7 @@
 <div class="container my-4">
     <h1>Crear Usuario</h1>
 
-    <form action="{{ route('usuarios.store') }}" method="POST">
+   <form action="{{ route('usuarios.store') }}" method="POST">
         @csrf
 
         <div class="mb-3">
@@ -24,6 +24,14 @@
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
         </div>
+     <div class="mb-3">
+           <label for="rol" class="form-label">Rol</label>
+             <select name="rol" class="form-control" required>
+               <option value="jugador">Jugador</option>
+                 <option value="admin">Administrador</option>
+        </select>
+        </div>
+
 
         <div class="mb-3">
             <label for="password" class="form-label">Contraseña</label>

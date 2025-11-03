@@ -18,10 +18,12 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+    'name',
+    'email',
+    'password',
+    'rol', // 👈 este campo DEBE estar aquí
+];
+
 
     /**
      * The attributes that should be hidden for serialization.
@@ -45,4 +47,15 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    public function partidas()
+{
+    return $this->belongsToMany(Partida::class, 'jugador_partida', 'jugador_id', 'partida_id')
+                ->withPivot('puntuacion')
+                ->withTimestamps();
+}
+ public function ranking()
+{
+    return $this->hasOne(\App\Models\Ranking::class, 'jugador_id');
+}
+
 }

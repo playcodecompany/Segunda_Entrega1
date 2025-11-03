@@ -11,19 +11,38 @@ class UserController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['auth', 'isAdmin']);
+        // Solo requiere que el usuario esté autenticado
+        $this->middleware('auth');
     }
 
-    public function index() {
+    /**
+     * Verifica si el usuario autenticado es administrador.
+     * Si no lo es, aborta con error 403 (acceso no autorizado).
+     */
+    private function checkAdmin()
+    {
+        if (!auth()->check() || auth()->user()->rol !== 'admin') {
+            abort(403, 'Acceso no autorizado');
+        }
+    }
+
+    public function index()
+    {
+        $this->checkAdmin();
         $usuarios = User::all();
         return view('admin.inicioadmin', compact('usuarios'));
     }
 
-    public function create() {
+    public function create()
+    {
+        $this->checkAdmin();
         return view('admin.crearusuario');
     }
 
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
+        $this->checkAdmin();
+
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
@@ -53,7 +72,7 @@ class UserController extends Controller
             'rol' => $validated['rol']
         ]);
 
-        if($usuario->rol === 'jugador'){
+        if ($usuario->rol === 'jugador') {
             Ranking::firstOrCreate([
                 'jugador_id' => $usuario->id,
                 'partidas_jugadas' => 0,
@@ -62,15 +81,19 @@ class UserController extends Controller
             ]);
         }
 
-        return redirect()->route('admin')->with('success','Usuario creado correctamente');
+        return redirect()->route('admin')->with('success', 'Usuario creado correctamente');
     }
 
-    public function edit($id) {
+    public function edit($id)
+    {
+        $this->checkAdmin();
         $usuario = User::findOrFail($id);
         return view('admin.editar', compact('usuario'));
     }
 
-    public function update(Request $request, $id) {
+    public function update(Request $request, $id)
+    {
+        $this->checkAdmin();
         $usuario = User::findOrFail($id);
 
         $validated = $request->validate([
@@ -97,22 +120,28 @@ class UserController extends Controller
         $usuario->name = $validated['name'];
         $usuario->email = $validated['email'];
         $usuario->rol = $validated['rol'];
-        if(!empty($validated['password'])){
+
+        if (!empty($validated['password'])) {
             $usuario->password = Hash::make($validated['password']);
         }
+
         $usuario->save();
 
-        return redirect()->route('admin')->with('success','Usuario actualizado correctamente');
+        return redirect()->route('admin')->with('success', 'Usuario actualizado correctamente');
     }
 
-    public function show($id) {
+    public function show($id)
+    {
+        $this->checkAdmin();
         $usuario = User::findOrFail($id);
         return view('admin.mostrar', compact('usuario'));
     }
 
-    public function destroy($id) {
+    public function destroy($id)
+    {
+        $this->checkAdmin();
         $usuario = User::findOrFail($id);
         $usuario->delete();
-        return redirect()->route('admin')->with('success','Usuario eliminado correctamente');
+        return redirect()->route('admin')->with('success', 'Usuario eliminado correctamente');
     }
 }
