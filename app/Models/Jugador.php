@@ -9,15 +9,17 @@ class Jugador extends Model
 {
     use HasFactory;
 
-    protected $table = 'jugadores';
-    protected $fillable = ['nombre', 'correo', 'contrasena'];
-    public $timestamps = false;
+    // Apunta a la tabla 'users'
+    protected $table = 'users';
 
-    // Relación con partidas
+    protected $fillable = ['name', 'email', 'password', 'rol'];
+
+    // Relación con partidas (usa la tabla pivote correcta)
     public function partidas()
     {
-        return $this->belongsToMany(Partida::class, 'jugador_partida')
-                    ->withPivot('puntuacion');
+        return $this->belongsToMany(Partida::class, 'partida_jugador')
+                    ->withPivot('puntuacion')
+                    ->withTimestamps();
     }
 
     // Relación con ranking

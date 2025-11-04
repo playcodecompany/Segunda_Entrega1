@@ -94,14 +94,3 @@
 
 @endsection
 
-@push('scripts')
-<script>
-function cambiarIdioma(lang) {
-    if (lang === "en") {
-        window.location.href = "{{ url('/indexingles') }}";
-    } else {
-        window.location.href = "{{ url('/') }}";
-    }
-}
-</script>
-@endpush

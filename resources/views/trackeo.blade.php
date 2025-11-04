@@ -3,11 +3,16 @@
 @section('title', 'Trackeo de Partida')
 
 @section('content')
+
+<meta name="csrf-token" content="{{ csrf_token() }}">
+
 <div id="trackeoApp"
+     data-partida-id="{{ $partida->id }}"
      data-jugadores='@json($partida->jugadores->map(fn($j) => ["id" => $j->id, "nombre" => $j->name, "puntos" => $j->pivot->puntuacion]))'
      data-animales='@json($animales ?? [])'
      data-modo='{{ $partida->jugadores->count() == 2 ? "2jugadores" : "normal" }}'
      data-rondas='{{ $partida->jugadores->count() == 2 ? 4 : 2 }}'>
+
 
     <div class="juego-container">
         <div class="panel-izq">
@@ -80,8 +85,10 @@
 
                     <button type="button" class="btn-registrar" id="btnRegistrar">Registrar Movimiento</button>
                 </form>
+                
 
-                <button class="btn-turno" id="btnFinalizarPartida" style="margin-top:10px;">Finalizar Partida</button>
+        <button type="button" id="btnFinalizar" class="btn-turno" style="margin-top:10px;">Finalizar Partida</button>
+
             </div>
         </div>
 

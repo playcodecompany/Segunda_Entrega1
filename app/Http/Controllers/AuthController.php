@@ -9,76 +9,81 @@ use App\Models\User;
 
 class AuthController extends Controller
 {
-    // Mostrar formulario de login de jugadores
+    /** Mostrar formulario de login de jugadores */
     public function showLogin()
     {
         return view('iniciosesion');
     }
 
-    // Procesar login de jugadores
+    /** Procesar login de jugadores */
     public function login(Request $request)
     {
         $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|string',
+            'correo' => 'required|email',
+            'contrasena' => 'required|string',
         ], [
-            'email.required' => 'El correo electrónico es obligatorio.',
-            'email.email' => 'Debe ingresar un correo válido.',
-            'password.required' => 'La contraseña es obligatoria.',
+            'correo.required' => 'El correo electrónico es obligatorio.',
+            'correo.email' => 'Debe ingresar un correo válido.',
+            'contrasena.required' => 'La contraseña es obligatoria.',
         ]);
 
-        $credentials = $request->only('email', 'password');
+        $credentials = [
+            'email' => $request->correo,
+            'password' => $request->contrasena,
+        ];
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
-            return redirect()->route('crear.partida'); // Redirige a crear partida
+            return redirect()->route('home'); // Redirige a crear partida
         }
 
         return back()->withErrors([
-            'email' => 'Las credenciales no coinciden con nuestros registros.',
-        ])->onlyInput('email');
+            'correo' => 'Las credenciales no coinciden con nuestros registros.',
+        ])->onlyInput('correo');
     }
 
-    // Mostrar formulario de login de admin
+    /** Mostrar formulario de login de admin */
     public function showAdminLogin()
     {
         return view('sesionadmin');
     }
 
-    // Procesar login de admin
+    /** Procesar login de admin */
     public function loginAdmin(Request $request)
     {
         $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|string',
+            'correo' => 'required|email',
+            'contrasena' => 'required|string',
         ], [
-            'email.required' => 'El correo electrónico es obligatorio.',
-            'email.email' => 'Debe ingresar un correo válido.',
-            'password.required' => 'La contraseña es obligatoria.',
+            'correo.required' => 'El correo electrónico es obligatorio.',
+            'correo.email' => 'Debe ingresar un correo válido.',
+            'contrasena.required' => 'La contraseña es obligatoria.',
         ]);
 
-        $credentials = $request->only('email', 'password');
+        $credentials = [
+            'email' => $request->correo,
+            'password' => $request->contrasena,
+        ];
 
-        // Intentar login y verificar que sea admin
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
-            if ($user->is_admin) {
+            if ($user->rol === 'admin') {
                 $request->session()->regenerate();
                 return redirect()->route('admin');
             } else {
                 Auth::logout();
                 return back()->withErrors([
-                    'email' => 'No tiene permisos de administrador.',
-                ]);
+                    'correo' => 'No tiene permisos de administrador.',
+                ])->onlyInput('correo');
             }
         }
 
         return back()->withErrors([
-            'email' => 'Las credenciales no coinciden con nuestros registros.',
-        ])->onlyInput('email');
+            'correo' => 'Las credenciales no coinciden con nuestros registros.',
+        ])->onlyInput('correo');
     }
 
-    // Logout para todos
+    /** Logout para todos */
     public function logout(Request $request)
     {
         Auth::logout();

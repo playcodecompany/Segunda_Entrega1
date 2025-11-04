@@ -15,7 +15,7 @@
 
     {{-- Botón para crear usuario --}}
     <div class="acciones">
-        <a href="{{ route('usuarios.create') }}" class="btn btn-nuevo">➕ Crear nuevo usuario</a>
+        <a href="{{ route('usuarios.create') }}" class="btn btn-nuevo"> Crear nuevo usuario</a>
     </div>
 
     {{-- Tabla de usuarios --}}
@@ -37,12 +37,12 @@
                     <td>{{ $usuario->email }}</td>
                     <td>{{ $usuario->created_at->format('d/m/Y') }}</td>
                     <td>
-                        <a href="{{ route('usuarios.show', $usuario->id) }}" class="btn btn-ver">👁️ Ver</a>
-                        <a href="{{ route('usuarios.edit', $usuario->id) }}" class="btn btn-editar">✏️ Editar</a>
+                        <a href="{{ route('usuarios.show', $usuario->id) }}" class="btn btn-ver">Ver</a>
+                        <a href="{{ route('usuarios.edit', $usuario->id) }}" class="btn btn-editar">Editar</a>
                         <form action="{{ route('usuarios.destroy', $usuario->id) }}" method="POST" class="form-eliminar">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-eliminar" onclick="return confirm('¿Eliminar este usuario?')">🗑️ Borrar</button>
+                            <button type="submit" class="btn btn-eliminar" onclick="return confirm('¿Eliminar este usuario?')">Borrar</button>
                         </form>
                     </td>
                 </tr>

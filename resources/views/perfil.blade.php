@@ -6,10 +6,11 @@
 <div class="perfil-header">
     <img src="{{ auth()->user()->avatar 
                 ? asset('storage/' . auth()->user()->avatar) 
-                : 'https://i.pravatar.cc/200?u=' . auth()->user()->id }}" 
+                : asset('imagenes/sinfoto.jpg') }}" 
          alt="Avatar de {{ auth()->user()->name }}" 
          class="perfil-avatar">
 </div>
+
 
 <div class="perfil-body">
     <h2>{{ auth()->user()->name }}</h2>
@@ -21,9 +22,7 @@
         <div class="estadistica"> 
             <h3>{{ $partidas_ganadas }}</h3> 
             <p>Partidas ganadas</p> 
-        </div> <div class="estadistica"> 
-            <h3>{{ $puntos_totales }}</h3> 
-            <p>Puntos totales</p> 
+        
         </div> 
     </div>
 

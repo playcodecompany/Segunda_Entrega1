@@ -7,16 +7,15 @@ use App\Models\Partida;
 use App\Models\User;
 use App\Models\Turno;
 use App\Models\Ranking;
+use Illuminate\Support\Facades\DB;
 
 class PartidaController extends Controller
 {
-    /** Mostrar formulario para crear partida */
     public function formCrear()
     {
         return view('crear');
     }
 
-    /** Guardar nueva partida y registrar jugadores */
     public function guardar(Request $request)
     {
         $creador = auth()->user();
@@ -36,25 +35,17 @@ class PartidaController extends Controller
             'fecha_inicio' => now(),
         ]);
 
-        // Asociar creador
-        $partida->jugadores()->attach($creador->id, ['puntuacion' => 0]);
-        Ranking::firstOrCreate(
-            ['jugador_id' => $creador->id],
-            ['partidas_jugadas' => 0, 'partidas_ganadas' => 0, 'puntos_totales' => 0]
-        );
-
-        // Asociar jugadores seleccionados
-        foreach ($request->jugadores ?? [] as $jugadorId) {
-            if ($jugadorId != $creador->id) {
-                $partida->jugadores()->attach($jugadorId, ['puntuacion' => 0]);
-                Ranking::firstOrCreate(
-                    ['jugador_id' => $jugadorId],
-                    ['partidas_jugadas' => 0, 'partidas_ganadas' => 0, 'puntos_totales' => 0]
-                );
-            }
+        // Asociar jugadores
+        $jugadoresIds = collect($request->jugadores ?? [])->prepend($creador->id)->unique();
+        foreach ($jugadoresIds as $jugadorId) {
+            $partida->jugadores()->attach($jugadorId, ['puntuacion' => 0]);
+            Ranking::firstOrCreate(
+                ['jugador_id' => $jugadorId],
+                ['partidas_jugadas' => 0, 'partidas_ganadas' => 0, 'puntos_totales' => 0]
+            );
         }
 
-        // Crear turnos según orden de jugadores
+        // Crear turnos
         $orden = 1;
         foreach ($partida->jugadores as $jugador) {
             Turno::create([
@@ -68,10 +59,9 @@ class PartidaController extends Controller
                          ->with('success', 'Partida creada correctamente.');
     }
 
-    /** Mostrar pantalla de trackeo */
     public function trackeo($codigoPartida)
     {
-        $partida = Partida::findOrFail($codigoPartida);
+        $partida = Partida::with('jugadores')->findOrFail($codigoPartida);
         $jugadores = $partida->jugadores;
         $turnos = Turno::where('partida_id', $codigoPartida)->orderBy('orden')->get();
         $rankingJugadores = Ranking::whereIn('jugador_id', $jugadores->pluck('id'))->get()->keyBy('jugador_id');
@@ -81,7 +71,6 @@ class PartidaController extends Controller
         return view('trackeo', compact('codigoPartida', 'partida', 'jugadores', 'turnos', 'rankingJugadores', 'animales'));
     }
 
-    /** Registrar movimiento vía AJAX */
     public function registrarMovimiento(Request $request, $partidaId)
     {
         $request->validate([
@@ -92,78 +81,107 @@ class PartidaController extends Controller
             'ronda' => 'required|integer|min:1',
         ]);
 
-        $partida = Partida::findOrFail($partidaId);
-        $jugadorId = $request->jugador_id;
-        $puntos = $request->puntos;
+        $jugadorId = (int) $request->jugador_id;
+        $puntos = (int) $request->puntos;
 
-        $partida->jugadores()->updateExistingPivot($jugadorId, [
-            'puntuacion' => \DB::raw("puntuacion + $puntos"),
+        DB::table('movimientos')->insert([
+            'partida_id' => $partidaId,
+            'jugador_id' => $jugadorId,
+            'ronda' => $request->ronda,
+            'animal' => $request->animal,
+            'recinto' => $request->recinto,
+            'puntos' => $puntos,
+            'created_at' => now(),
+            'updated_at' => now(),
         ]);
+
+        DB::table('partida_jugador')
+            ->where('partida_id', $partidaId)
+            ->where('jugador_id', $jugadorId)
+            ->increment('puntuacion', $puntos);
+
+        $puntosActuales = DB::table('partida_jugador')
+            ->where('partida_id', $partidaId)
+            ->where('jugador_id', $jugadorId)
+            ->value('puntuacion');
 
         return response()->json([
             'success' => true,
             'jugador_id' => $jugadorId,
-            'puntos_actuales' => $partida->jugadores()->find($jugadorId)->pivot->puntuacion,
+            'puntos_actuales' => (int) $puntosActuales,
         ]);
     }
 
-    /** Finalizar partida y actualizar ranking */
-   public function finalizarPartida($codigoPartida)
-{
-    // Cargar partida con jugadores
-    $partida = Partida::with('jugadores')->findOrFail($codigoPartida);
+    public function finalizarPartida(Request $request, $codigoPartida)
+    {
+        $partida = Partida::with('jugadores')->findOrFail($codigoPartida);
+        $resultados = $request->input('resultados'); // en lugar de $request->json()->get('resultados')
 
-    // Calcular el puntaje máximo de la partida
-    $maxPuntos = $partida->jugadores->max(function($jugador){
-        return $jugador->pivot->puntuacion;
-    });
-
-    // Obtener todos los jugadores con puntaje máximo (por si hay empate)
-    $ganadores = $partida->jugadores->filter(fn($jugador) => $jugador->pivot->puntuacion == $maxPuntos);
-
-    // Guardar el primer ganador (en caso de empate se puede mejorar para varios)
-    $partida->ganador_id = $ganadores->first()->id;
-    $partida->fecha_fin = now();
-    $partida->save();
-
-    // Actualizar ranking de cada jugador
-    foreach ($partida->jugadores as $jugador) {
-        $ranking = Ranking::firstOrCreate(
-            ['jugador_id' => $jugador->id],
-            ['partidas_jugadas' => 0, 'partidas_ganadas' => 0, 'puntos_totales' => 0]
-        );
-
-        $ranking->partidas_jugadas += 1;
-        $ranking->puntos_totales += $jugador->pivot->puntuacion;
-
-        if ($jugador->id == $partida->ganador_id) {
-            $ranking->partidas_ganadas += 1;
+        if (empty($resultados)) {
+            return response()->json(['error' => 'No se recibieron resultados.'], 400);
         }
 
-        $ranking->save();
+        $partida->fecha_fin = now();
+        $partida->save();
+
+        foreach ($resultados as $r) {
+            DB::table('partida_jugador')
+                ->where('partida_id', $partida->id)
+                ->where('jugador_id', $r['jugador_id'])
+                ->update(['puntuacion' => (int) $r['puntos']]);
+        }
+
+        $maxPuntos = DB::table('partida_jugador')
+            ->where('partida_id', $partida->id)
+            ->max('puntuacion');
+
+        $ganadores = DB::table('partida_jugador')
+            ->where('partida_id', $partida->id)
+            ->where('puntuacion', $maxPuntos)
+            ->pluck('jugador_id');
+
+        $partida->ganador_id = $ganadores->first();
+        $partida->save();
+
+        foreach ($resultados as $r) {
+            $ranking = Ranking::firstOrCreate(
+                ['jugador_id' => $r['jugador_id']],
+                ['partidas_jugadas' => 0, 'partidas_ganadas' => 0, 'puntos_totales' => 0]
+            );
+
+            $ranking->partidas_jugadas += 1;
+            $ranking->puntos_totales += (int) $r['puntos'];
+
+            if (in_array($r['jugador_id'], $ganadores->toArray())) {
+                $ranking->partidas_ganadas += 1;
+            }
+
+            $ranking->save();
+        }
+
+        return response()->json([
+            'success' => true,
+            'mensaje' => 'Partida finalizada correctamente.',
+            'ganadores' => $ganadores,
+        ]);
     }
 
-    // Redirigir a la vista resumen de la partida
-    return redirect()->route('resumen.partida', ['codigoPartida' => $codigoPartida])
-                     ->with('success', 'Partida finalizada correctamente.');
-}
+    public function resumenPartida($codigoPartida)
+    {
+        $partida = Partida::with('jugadores', 'movimientos.jugador')->findOrFail($codigoPartida);
 
+        $jugadoresRanking = $partida->jugadores->map(function ($j) use ($partida) {
+            $p = DB::table('partida_jugador')
+                ->where('partida_id', $partida->id)
+                ->where('jugador_id', $j->id)
+                ->value('puntuacion');
+            $j->pivot->puntuacion = (int) $p;
+            return $j;
+        })->sortByDesc(fn($j) => $j->pivot->puntuacion)
+          ->values();
 
+        $ganador = $jugadoresRanking->first();
 
-
-    /** Resumen de partida */
-   public function resumenPartida($codigoPartida)
-{
-    // Cargar la partida, los jugadores y los movimientos con su jugador
-    $partida = Partida::with('jugadores', 'movimientos.jugador')->findOrFail($codigoPartida);
-
-    // Ordenar jugadores por puntos descendente
-    $jugadoresRanking = $partida->jugadores->sortByDesc(function($j){
-        return $j->pivot->puntuacion;
-    });
-
-    // Pasar datos a la vista resumen_partida.blade.php
-    return view('resumen_partida', compact('partida', 'jugadoresRanking'));
-}
-
+        return view('resumen_partida', compact('partida', 'jugadoresRanking', 'ganador'));
+    }
 }

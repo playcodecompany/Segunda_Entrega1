@@ -39,14 +39,3 @@
 </div>
 @endsection
 
-@section('scripts')
-<script>
-function cambiarIdioma(lang) {
-    if (lang === "en") {
-        window.location.href = "{{ url('/iniciosesioningles') }}"; 
-    } else {
-        window.location.href = "{{ url('/iniciosesion') }}";
-    }
-}
-</script>
-@endsection

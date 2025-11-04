@@ -1,63 +1,36 @@
 @extends('layouts.app')
 
+@section('title', 'Resumen de Partida')
+
 @section('content')
+<div class="resumen-podio-container">
+    <h1>¡Resultados de la Partida!</h1>
 
-<div class="container mt-4">
-    <h1 class="mb-3">Resumen de la Partida: {{ $partida->nombre }}</h1>
-    <p>
-    Fecha inicio: {{ \Carbon\Carbon::parse($partida->fecha_inicio)->format('d/m/Y H:i') }} |
-    Fecha fin: {{ $partida->fecha_fin ? \Carbon\Carbon::parse($partida->fecha_fin)->format('d/m/Y H:i') : 'En curso' }}
-</p>
+    @php
+        $jugadoresOrdenados = $partida->jugadores->sortByDesc(fn($j) => $j->pivot->puntuacion)->values();
+    @endphp
 
+    <div class="podio-principal">
+        @for($i = 0; $i < 3; $i++)
+            @php
+                $jugador = $jugadoresOrdenados[$i] ?? null;
+            @endphp
+            <div class="puesto puesto-{{ $i+1 }}">
+                <div class="numero">{{ $i+1 }}°</div>
+                <div class="nombre">{{ $jugador->name ?? 'Vacío' }}</div>
+                <div class="puntos">{{ $jugador?->pivot->puntuacion ?? 0 }} pts</div>
+            </div>
+        @endfor
+    </div>
 
-<h2 class="mt-4">🏆 Ranking de Jugadores</h2>
-<table class="table table-striped table-bordered mt-2">
-    <thead class="thead-dark">
-        <tr>
-            <th>Posición</th>
-            <th>Jugador</th>
-            <th>Puntos</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach($jugadoresRanking as $index => $jugador)
-        <tr @if($index == 0) class="table-success" @endif>
-            <td>{{ $index + 1 }}</td>
-            <td>{{ $jugador->nombre }}</td>
-            <td>{{ $jugador->pivot->puntuacion }}</td>
-        </tr>
-        @endforeach
-    </tbody>
-</table>
-
-<h2 class="mt-4">📋 Movimientos</h2>
-@if($partida->movimientos->count() > 0)
-<table class="table table-sm table-bordered mt-2">
-    <thead class="thead-light">
-        <tr>
-            <th>Ronda</th>
-            <th>Jugador</th>
-            <th>Animal</th>
-            <th>Recinto</th>
-            <th>Puntos Obtenidos</th>
-            <th>Fecha/Hora</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach($partida->movimientos as $mov)
-        <tr>
-            <td>{{ $mov->ronda }}</td>
-            <td>{{ $mov->jugador->nombre }}</td>
-            <td>{{ $mov->animal }}</td>
-            <td>{{ $mov->recinto }}</td>
-            <td>{{ $mov->puntos }}</td>
-            <td>{{ $mov->created_at->format('d/m/Y H:i') }}</td>
-        </tr>
-        @endforeach
-    </tbody>
-</table>
-@else
-<p>No hay movimientos registrados aún.</p>
-@endif
+    <h2>Resumen de la Partida</h2>
+    <table>
+        <tr><th>Ganador</th><td>{{ $partida->ganador?->name ?? 'Vacío' }}</td></tr>
+        <tr><th>Fecha</th><td>{{ $partida->fecha_inicio?->format('d/m/Y H:i') ?? 'Sin registro' }}</td></tr>
+        <tr><th>Jugadores</th><td>{{ $partida->jugadores->count() }}</td></tr>
+        <tr><th>Puntaje Máximo</th><td>{{ $jugadoresOrdenados->first()?->pivot->puntuacion ?? 0 }} pts</td></tr>
+        <tr><th>Duración</th><td>{{ $partida->duracion ?? '—' }} minutos</td></tr>
+    </table>
 </div>
+    <a href="{{ route('home') }}" class="btn btn-secondary">Volver</a>
 @endsection
