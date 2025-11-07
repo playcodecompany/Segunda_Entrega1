@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('movimientos', function (Blueprint $table) {
             $table->id();
             $table->foreignId('partida_id')->constrained('partidas')->onDelete('cascade');
-            $table->foreignId('jugador_id')->constrained('users')->onDelete('cascade'); // ⚡ users
+            $table->foreignId('jugador_id')->constrained('users')->onDelete('cascade'); 
             $table->integer('ronda')->default(1);
             $table->string('animal', 50);
             $table->string('recinto', 50);

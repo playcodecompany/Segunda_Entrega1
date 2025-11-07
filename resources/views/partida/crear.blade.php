@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Crear Partida')
+@section('title',  __('partida.title_create'))
 
 @section('content')
 

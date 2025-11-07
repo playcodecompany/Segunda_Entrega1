@@ -8,25 +8,24 @@ return new class extends Migration
 {
     public function up(): void
     {
-        // Tabla partidas
+        
         Schema::create('partidas', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('creador_id')->constrained('users'); // apunta a users
-            $table->string('nombre'); // ⚡ agregada la columna nombre
+            $table->foreignId('creador_id')->constrained('users');
+            $table->string('nombre'); 
             $table->timestamp('fecha_inicio')->useCurrent();
             $table->timestamp('fecha_fin')->nullable();
-    
-            $table->foreignId('ganador_id')->nullable()->constrained('users'); // apunta a users
+            $table->foreignId('ganador_id')->nullable()->constrained('users'); 
             $table->timestamps();
         });
 
-        // Tabla pivote partida_jugador
+        
         Schema::create('partida_jugador', function (Blueprint $table) {
             $table->id();
             $table->foreignId('partida_id')->constrained('partidas');
-            $table->foreignId('jugador_id')->constrained('users'); // ⚡ usuarios
-            $table->integer('turno')->nullable(); // para guardar el orden de turnos
-            $table->integer('puntuacion')->default(0); // ⚡ agregar puntuación
+            $table->foreignId('jugador_id')->constrained('users'); 
+            $table->integer('turno')->nullable(); 
+            $table->integer('puntuacion')->default(0); 
             $table->timestamps();
         });
     }

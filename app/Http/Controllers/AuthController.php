@@ -12,7 +12,7 @@ class AuthController extends Controller
     /** Mostrar formulario de login de jugadores */
     public function showLogin()
     {
-        return view('iniciosesion');
+        return view('auth.iniciosesion');
     }
 
     /** Procesar login de jugadores */
@@ -40,12 +40,6 @@ class AuthController extends Controller
         return back()->withErrors([
             'correo' => 'Las credenciales no coinciden con nuestros registros.',
         ])->onlyInput('correo');
-    }
-
-    /** Mostrar formulario de login de admin */
-    public function showAdminLogin()
-    {
-        return view('sesionadmin');
     }
 
     /** Procesar login de admin */

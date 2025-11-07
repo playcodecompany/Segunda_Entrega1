@@ -21,13 +21,13 @@ class Movimiento extends Model
 
     public $timestamps = true;
 
-    /** Relación con la partida a la que pertenece */
+    //Relación con la partida a la que pertenece 
     public function partida()
     {
         return $this->belongsTo(Partida::class, 'partida_id');
     }
 
-    /** Relación con el jugador que hizo el movimiento */
+    // Relación con el jugador que hizo el movimiento 
     public function jugador()
     {
         return $this->belongsTo(Jugador::class, 'jugador_id');

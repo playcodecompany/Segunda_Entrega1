@@ -30,7 +30,6 @@ class User extends Authenticatable
         ];
     }
 
-    // Relación con partidas (tabla pivote partida_jugador)
     public function partidas()
     {
         return $this->belongsToMany(Partida::class, 'partida_jugador', 'jugador_id', 'partida_id')

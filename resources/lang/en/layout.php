@@ -8,4 +8,6 @@ return [
     'language' => 'Language',
     'spanish' => 'Spanish',
     'footer' => '© 2025 PlayCode. All rights reserved.',
+    'english' => 'English',
+    'spanish' => 'Spanish'
 ];

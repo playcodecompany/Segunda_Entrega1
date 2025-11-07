@@ -13,7 +13,7 @@ class PartidaController extends Controller
 {
     public function formCrear()
     {
-        return view('crear');
+        return view('partida.crear');
     }
 
     public function guardar(Request $request)
@@ -68,7 +68,7 @@ class PartidaController extends Controller
 
         $animales = ['Serpiente', 'Tortuga', 'Caracol', 'Conejo', 'Ratón', 'Camello'];
 
-        return view('trackeo', compact('codigoPartida', 'partida', 'jugadores', 'turnos', 'rankingJugadores', 'animales'));
+        return view('partida.trackeo', compact('codigoPartida', 'partida', 'jugadores', 'turnos', 'rankingJugadores', 'animales'));
     }
 
     public function registrarMovimiento(Request $request, $partidaId)
@@ -182,6 +182,6 @@ class PartidaController extends Controller
 
         $ganador = $jugadoresRanking->first();
 
-        return view('resumen_partida', compact('partida', 'jugadoresRanking', 'ganador'));
+        return view('partida.resumen_partida', compact('partida', 'jugadoresRanking', 'ganador'));
     }
 }

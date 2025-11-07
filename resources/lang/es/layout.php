@@ -8,4 +8,6 @@ return [
     'language' => 'Idioma',
     'spanish' => 'Español',
     'footer' => '© 2025 PlayCode. Todos los derechos reservados.',
+    'english' => 'Inglés',
+    'spanish' => 'Español',
 ];

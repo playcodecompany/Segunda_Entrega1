@@ -1,5 +1,3 @@
-/* estilos.css */
-
 /* Fondo y fuente general */
 body {
   font-family: 'Montserrat', sans-serif;
@@ -149,7 +147,7 @@ footer {
 
 /* Sección de empresa */
 .seccion-empresa {
-    background-color: #f0fdff;
+    background-color: #ffffff;
     padding: 3rem 2rem;
     border-radius: 15px;
     box-shadow: 0 0 20px rgba(0,0,0,0.05);
@@ -171,11 +169,11 @@ footer {
 
 /* Misión y visión */
 .mision-vision .col-md-6 {
-    background-color: #e7fafe;
+    background-color: #ffffff;
     padding: 1.5rem;
     border-radius: 10px;
     margin-bottom: 1rem;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    box-shadow: 0 0 10px #ffbeef1a;
 }
 
 .mision-vision h4 {
@@ -188,8 +186,8 @@ footer {
 .opiniones .card {
     border: none;
     border-radius: 15px;
-    background: linear-gradient(135deg, #ffffff, #73839a);
-    color: white;
+    background: linear-gradient(135deg, #ffffff, #ffd4f6);
+    color: black;
     padding: 1.5rem;
     transition: transform 0.3s, box-shadow 0.3s;
 }
@@ -269,7 +267,7 @@ footer {
     box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
 }
 
-/* =================== CONTAINER JUEGO =================== */
+/*CONTAINER JUEGO */
 .juego-container {
     display: grid;
     grid-template-columns: 1fr 2fr 1fr;
@@ -695,7 +693,7 @@ h1 {
     border-radius: 10px;
     box-shadow: 0px 2px 6px rgba(0,0,0,0.1);
 }
-/* === PANTALLA DE RESUMEN PODIO === */ 
+/* PANTALLA DE RESUMEN PODIO*/ 
 .resumen-podio-container {
   flex: 1;
   display: flex;
@@ -787,7 +785,7 @@ h1 {
   white-space: nowrap;
 }
 
-/* Runners-up (4° y 5°) */
+
 .podio-runners {
   margin-top: 30px;
   display: flex;
@@ -826,7 +824,7 @@ h1 {
   transform: scale(1.05);
 }
 
-/* === TABLA RESUMEN DE PARTIDA === */
+/* TABLA RESUMEN DE PARTIDA  */
 .tabla-resumen {
   margin-top: 50px;
   width: 100%;
@@ -916,7 +914,7 @@ h1 {
 }
 
 .form-control:focus {
-    border-color: #f6953b;
+    border-color: #f63b89;
     box-shadow: 0 0 5px rgba(246, 96, 59, 0.5);
     outline: none;
 }
@@ -929,14 +927,14 @@ h1 {
 
 /* Botones */
 .btn-warning {
-    background: #f6b53b;
+    background: #f63ba2;
     border: none;
     font-weight: 600;
     transition: background 0.2s, transform 0.2s;
 }
 
 .btn-warning:hover {
-    background: #e52626;
+    background: #e526bc;
     transform: translateY(-2px);
 }
 
@@ -945,7 +943,7 @@ h1 {
 }
 
 .btn-secondary:hover {
-    background: #6c757d;
+    background: #7d6c77;
     transform: translateY(-2px);
 }
 
@@ -1056,3 +1054,155 @@ h1 {
         margin: 1.5rem auto;
     }
 }
+
+
+
+.info-empresa {
+    background-color: #fffafc;
+    border-top: 3px solid #ffb6c1;
+}
+
+.info-empresa h3 {
+    color: #d94e8f;
+    font-weight: 700;
+}
+
+.info-empresa p {
+    color: #555;
+    font-size: 1.05rem;
+}
+
+.info-empresa .card {
+    transition: transform 0.3s ease;
+}
+
+.info-empresa .card:hover {
+    transform: translateY(-5px);
+}
+
+/* SECCIÓN MERCH  */
+
+.seccion-merch {
+    background-color: #fafafa;
+    position: relative;
+    overflow: hidden;
+    padding: 40px 0;
+}
+
+/* Contenedor principal horizontal */
+.merch-container {
+    display: flex;
+    gap: 35px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 20px 80px;
+    scroll-snap-type: x mandatory;
+}
+
+/* Tarjeta de producto */
+.merch-item {
+    flex: 0 0 auto;
+    width: 350px;
+    background: white;
+    border-radius: 18px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+    text-align: center;
+    padding: 25px;
+    transition: transform 0.3s ease;
+    scroll-snap-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.merch-item:hover {
+    transform: translateY(-8px);
+}
+
+/* Imágenes del producto */
+.imagen-dual {
+    position: relative;
+    width: 100%;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.imagen-dual img {
+    position: absolute;
+    width: 90%;
+    height: auto;
+    max-height: 100%;
+    object-fit: contain;
+    border-radius: 10px;
+    transition: opacity 0.4s ease;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Efecto de cambio entre frente y espalda */
+.imagen-dual .espalda {
+    opacity: 0;
+}
+
+.merch-item:hover .frente {
+    opacity: 0;
+}
+
+.merch-item:hover .espalda {
+    opacity: 1;
+}
+
+/* Títulos y precios */
+.merch-item h6 {
+    margin-top: 15px;
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+
+.precio {
+    color: #007bff;
+    font-weight: bold;
+    font-size: 1.3rem;
+    margin-top: 5px;
+}
+
+/* Botones de navegación */
+.btn-nav {
+    position: absolute;
+    top: 45%;
+    background: rgba(0,0,0,0.5);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 32px;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    z-index: 5;
+    transition: background 0.3s;
+}
+
+.btn-nav:hover {
+    background: rgba(0,0,0,0.8);
+}
+
+.btn-nav.left {
+    left: 20px;
+}
+
+.btn-nav.right {
+    right: 20px;
+}
+
+/* Cuando el producto no tiene imagen de espalda */
+.imagen-dual:not(:has(.espalda)) .frente {
+    opacity: 1 !important;
+}
+
+.imagen-dual:not(:has(.espalda)) .espalda {
+    display: none;
+}
+

@@ -1,41 +1,40 @@
 @extends('layouts.app')
 
-@section('title', 'Mi Perfil')
+@section('title', __('perfil.title'))
 
 @section('content')
 <div class="perfil-header">
     <img src="{{ auth()->user()->avatar 
                 ? asset('storage/' . auth()->user()->avatar) 
                 : asset('imagenes/sinfoto.jpg') }}" 
-         alt="Avatar de {{ auth()->user()->name }}" 
+         alt="{{ auth()->user()->name }}'s Avatar" 
          class="perfil-avatar">
 </div>
 
-
 <div class="perfil-body">
-    <h2>{{ auth()->user()->name }}</h2>
+    <h2>{{ __('perfil.avatar_of', ['name' => auth()->user()->name]) }}</h2>
     <p>{{ auth()->user()->email }}</p>
-<div class="perfil-estadisticas"> 
-    <div class="estadistica"> 
-        <h3>{{ $partidas_jugadas }}</h3> 
-        <p>Partidas jugadas</p> </div> 
+
+    <div class="perfil-estadisticas"> 
+        <div class="estadistica"> 
+            <h3>{{ $partidas_jugadas }}</h3> 
+            <p>{{ __('perfil.games_played') }}</p>
+        </div> 
         <div class="estadistica"> 
             <h3>{{ $partidas_ganadas }}</h3> 
-            <p>Partidas ganadas</p> 
-        
+            <p>{{ __('perfil.games_won') }}</p> 
         </div> 
     </div>
 
-    <!-- Tabla de Partidas -->
     <div class="tabla-partidas">
-        <h3>Mis Partidas</h3>
+        <h3>{{ __('perfil.my_games') }}</h3>
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
-                    <th>Nombre de la partida</th>
-                    <th>Puntos obtenidos</th>
-                    <th>Ganador</th>
-                    <th>Fecha</th>
+                    <th>{{ __('perfil.game_name') }}</th>
+                    <th>{{ __('perfil.points_earned') }}</th>
+                    <th>{{ __('perfil.winner') }}</th>
+                    <th>{{ __('perfil.date') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -53,7 +52,7 @@
 
     <form action="{{ route('logout') }}" method="POST" style="margin-top:20px;">
         @csrf
-        <button type="submit" class="btn-logout">Cerrar Sesión</button>
+        <button type="submit" class="btn-logout">{{ __('perfil.logout_button') }}</button>
     </form>
 </div>
 @endsection

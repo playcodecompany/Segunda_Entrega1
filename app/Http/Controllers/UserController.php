@@ -15,15 +15,13 @@ class UserController extends Controller
         $this->middleware('auth');
     }
 
-    /**
-     * Verifica si el usuario autenticado es administrador.
-     * Si no lo es, aborta con error 403 (acceso no autorizado).
-     */
+    //Verifica si el usuario autenticado es administrador. Si no lo es, aborta con error 
     private function checkAdmin()
     {
         if (!auth()->check() || auth()->user()->rol !== 'admin') {
             abort(403, 'Acceso no autorizado');
         }
+        
     }
 
     public function index()

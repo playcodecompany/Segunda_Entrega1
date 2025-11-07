@@ -22,7 +22,6 @@ class Partida extends Model
 
     public $timestamps = true;
 
-    // Relación con jugadores (tabla pivote partida_jugador)
     public function jugadores()
     {
         return $this->belongsToMany(User::class, 'partida_jugador', 'partida_id', 'jugador_id')
@@ -50,13 +49,17 @@ class Partida extends Model
         'fecha_fin' => 'datetime',
     ];
 
-    public function calcularDuracion()
-    {
-        if ($this->fecha_inicio && $this->fecha_fin) {
-            $this->duracion = $this->fecha_inicio->diffInMinutes($this->fecha_fin);
-            $this->save();
-        }
+    public function getDuracionAttribute()
+{
+    if ($this->fecha_inicio && $this->fecha_fin) {
+        $diff = $this->fecha_inicio->diff($this->fecha_fin);
+        return sprintf('%d min %d s', $diff->i, $diff->s);
     }
+
+    return null;
+}
+
+
 
     public function puntajeMaximo()
     {

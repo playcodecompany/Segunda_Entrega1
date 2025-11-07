@@ -9,21 +9,21 @@ use App\Models\Ranking;
 
 class PerfilController extends Controller
 {
-    /** Mostrar perfil del usuario logueado */
+    //Mostrar perfil del usuario logueado 
     public function perfil()
 {
     $usuario = auth()->user();
 
-    // Obtener todas las partidas del usuario con sus jugadores (para saber ganador) y puntuación en pivot
+    //Obtener todas las partidas del usuario
     $partidas = $usuario->partidas()->with('jugadores')->orderBy('fecha_fin', 'desc')->get();
 
-    // Total de puntos acumulados
+    //Total de puntos acumulados
     $puntos_totales = $partidas->sum('pivot.puntuacion');
 
-    // Número de partidas jugadas
+    //Número de partidas jugadas
     $partidas_jugadas = $partidas->count();
 
-    // Número de partidas ganadas
+    //Número de partidas ganadas
     $partidas_ganadas = 0;
     foreach ($partidas as $partida) {
         $max_puntos = $partida->jugadores->max(function($j) {
@@ -35,7 +35,7 @@ class PerfilController extends Controller
         }
     }
 
-    return view('perfil', compact(
+    return view('auth.perfil', compact(
         'usuario',
         'partidas',
         'puntos_totales',

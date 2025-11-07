@@ -11,7 +11,7 @@ return new class extends Migration
     Schema::create('turnos', function (Blueprint $table) {
         $table->id();
         $table->foreignId('partida_id')->constrained('partidas');
-        $table->foreignId('jugador_id')->constrained('users'); // ⚡ apunta a users
+        $table->foreignId('jugador_id')->constrained('users'); 
         $table->integer('orden');
         $table->timestamps();
     });

@@ -2,6 +2,7 @@
 
 return [
     // Títulos y botones
+    'web' => 'PlayCode',
     'title' => '¡Bienvenid@ a PlayCode!',
     'intro' => 'Unite a la mesa digital para aprender, competir y divertirte.',
     'description' => 'No hace falta instalar nada: jugá directo desde el navegador, donde y cuando quieras.',
@@ -25,4 +26,19 @@ return [
     'opinion_1' => '"Me encanta PlayCode, puedo jugar con mis amigos desde cualquier lugar." – Ana P.',
     'opinion_2' => '"La plataforma es muy intuitiva y el juego es muy entretenido. ¡Recomendado!" – Lucas M.',
     'opinion_3' => '"Me sorprendió la calidad y el diseño del juego. Definitivamente seguiré usando PlayCode." – Sofía R.',
+
+    // Nueva sección: Ubicación, valores y merchandising
+    'location_title' => 'Nuestra ubicación',
+    'location_text' => 'Nos encontramos en Ciudad Vieja, Montevideo — esquina 25 de Mayo y Bartolomé Mitre.',
+
+    'values_title' => 'Nuestros valores',
+    'value_1_title' => 'Honestidad y Transparencia',
+    'value_1_text' => 'Actuamos con sinceridad y claridad en todas nuestras acciones, tanto internas como externas.',
+    'value_2_title' => 'Profesionalidad',
+    'value_2_text' => 'Mantenemos altos estándares éticos y técnicos en cada etapa del desarrollo.',
+    'value_3_title' => 'Innovación',
+    'value_3_text' => 'Creamos nuevas ideas y soluciones para ofrecer juegos únicos y adaptados a los cambios tecnológicos y culturales.',
+
+    'merch_title' => 'Merchandising PlayCode',
+    'merch_text' => 'Explorá nuestros productos exclusivos.',
 ];

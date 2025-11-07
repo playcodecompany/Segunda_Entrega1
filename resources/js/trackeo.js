@@ -203,9 +203,9 @@ document.addEventListener('DOMContentLoaded', () => {
     .catch(err => console.error('Error al guardar puntos:', err));
 }
 
-// al final del DOMContentLoaded
+
 document.getElementById('btnFinalizar').addEventListener('click', () => {
-    calcularPuntosFinales(); // ya hace el fetch y redirige a resumen
+    calcularPuntosFinales(); 
 });
 
 

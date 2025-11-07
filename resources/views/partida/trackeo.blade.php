@@ -1,9 +1,8 @@
-@extends('layouts.app')
+@extends('layouts.app') 
 
-@section('title', 'Trackeo de Partida')
+@section('title', __('partida.title_track'))
 
 @section('content')
-
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
 <div id="trackeoApp"
@@ -13,75 +12,78 @@
      data-modo='{{ $partida->jugadores->count() == 2 ? "2jugadores" : "normal" }}'
      data-rondas='{{ $partida->jugadores->count() == 2 ? 4 : 2 }}'>
 
-
     <div class="juego-container">
         <div class="panel-izq">
+            <!-- aca van las reglas del juego -->
             <div class="trackeo-reglas" style="max-height:300px; overflow-y:auto; border:1px solid #ccc; padding:10px; border-radius:5px; margin-top:10px;"> 
-                 <h4>{{ __('partida.rules_title') }}</h4>
-                <ul> 
-                   <li><strong>{{ __('partida.rules.bosque') }}</strong></li>
+                <h4>{{ __('partida.rules_title') }}</h4>
+                <ul>
+                    <li><strong>{{ __('partida.rules.bosque') }}</strong></li>
                     <li><strong>{{ __('partida.rules.prado') }}</strong></li>
                     <li><strong>{{ __('partida.rules.desierto') }}</strong></li>
                     <li><strong>{{ __('partida.rules.refugio') }}</strong></li>
                     <li><strong>{{ __('partida.rules.trono') }}</strong></li>
                     <li><strong>{{ __('partida.rules.isla') }}</strong></li>
                     <li><strong>{{ __('partida.rules.rio') }}</strong></li>
-                </ul> 
-                <h4>{{ __('partida.rules_mode_title') }}</h4>
-                <ul>
-                    @foreach(__('partida.rules_mode') as $rule)
-                        <li>{{ $rule }}</li>
-                    @endforeach
                 </ul>
             </div>
 
+            <!-- arreglado el id del dado y le agregue el visor -->
             <div class="dado" style="text-align:center; margin-top:20px;">
                 <p>{{ __('partida.dice_result') }} <span id="valorDado">-</span></p>
-                <button class="btn-registrar">{{ __('partida.dice_button') }}</button>
+                <p><strong id="visorDado">-</strong></p>
+                <button id="btnTirarDado" class="btn-turno">{{ __('partida.dice_button') }}</button>
             </div>
         </div>
 
         <div class="panel-centro">
-            <h1 class="titulo-tablero"><span class="titulo-animal">ANIMAL</span> <span class="titulo-draft">DRAFT</span></h1>
+            <!-- titulo y tablero -->
+            <h1 class="titulo-tablero">
+                <span class="titulo-animal">ANIMAL</span> <span class="titulo-draft">DRAFT</span>
+            </h1>
             <div class="tablero">
                 <img src="{{ asset('imagenes/tablero.png') }}" alt="Tablero" class="img-tablero">
             </div>
         </div>
 
         <div class="panel-der">
+            <!-- parte de la ronda y turno -->
             <div class="ronda" style="text-align:center;">
                 <h3>{{ __('partida.round') }} <span id="numRonda">1</span></h3>
-                    <p>{{ __('partida.turn_of') }} <strong id="jugadorActual" class="parpadeo-jugador"></strong></p>
+                <p>{{ __('partida.turn_of') }} <strong id="jugadorActual" class="parpadeo-jugador"></strong></p>
             </div>
 
+            <!-- formulario de trackeo -->
             <div class="tracker">
                 <h3>{{ __('partida.tracking') }}</h3>
                 <form id="formTrackeo">
                     <label for="animal">Animal:</label>
                     <select id="animal" name="animal" required>
-                         @foreach(__('partida.animales') as $key => $label)
-                        <option value="{{ $key }}">{{ $label }}</option>
-                    @endforeach
+                        @foreach(__('partida.animales') as $key => $label)
+                            <option value="{{ $key }}">{{ $label }}</option>
+                        @endforeach
                     </select>
 
-                     <label for="recinto">{{ __('partida.enclosure_label') }}</label>
+                    <label for="recinto">{{ __('partida.enclosure_label') }}</label>
                     <select id="recinto" name="recinto" required>
                         @foreach(__('partida.recintos') as $key => $label)
-                        <option value="{{ $label }}">{{ $label }}</option>
-                    @endforeach
+                            <option value="{{ $label }}">{{ $label }}</option>
+                        @endforeach
                     </select>
 
                     <button type="button" class="btn-registrar" id="btnRegistrar">
-                    {{ __('partida.register_button') }}
-                </button>
+                        {{ __('partida.register_button') }}
+                    </button>
                 </form>
-                
 
+                <!-- boton para finalizar la partida -->
                 <button type="button" id="btnFinalizar" class="btn-turno" style="margin-top:10px;">
-                {{ __('partida.finish_button') }}
+                    {{ __('partida.finish_button') }}
+                </button>
             </div>
         </div>
 
+        <!-- tablas de registro y puntos -->
         <div class="panel-registro" style="display:flex; gap:20px; margin-top:20px;">
             <div style="flex:2;">
                 <h3>{{ __('partida.movements_title') }}</h3>
@@ -99,7 +101,7 @@
             </div>
 
             <div style="flex:1;">
-                 <h3>{{ __('partida.score_title') }}</h3>
+                <h3>{{ __('partida.score_title') }}</h3>
                 <table id="tablaPuntos" class="table table-bordered">
                     <thead>
                         <tr>
@@ -114,4 +116,6 @@
         </div>
     </div>
 </div>
+
+
 @endsection
