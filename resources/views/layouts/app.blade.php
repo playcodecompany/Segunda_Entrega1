@@ -6,6 +6,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>@yield('title', 'PlayCode')</title>
+    <link rel="icon" href="{{ asset('imagenes/logo1.png') }}" type="image/png">
 
 
 <!-- Bootstrap y fuentes -->
@@ -30,15 +31,16 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="menuNav">
+                    
     <!-- Todo el menú a la derecha -->
     <ul class="navbar-nav align-items-center ms-auto">
-        <li class="nav-item"><a class="nav-link active" href="{{ route('home') }}">Inicio</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ route('crear.partida') }}">Jugar</a></li>
-        <li class="nav-item"><a class="nav-link" href="{{ route('admin') }}">Panel</a></li>
-        <li class="nav-item nav-perfil ms-3"><a class="nav-link" href="{{ route('perfil') }}">Mi perfil</a></li>
+        <li class="nav-item"><a class="nav-link active" href="{{ route('home') }}">{{ __('layout.home') }}</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ route('crear.partida') }}">{{ __('layout.play') }}</a></li>
+        <li class="nav-item"><a class="nav-link" href="{{ route('admin') }}">{{ __('layout.admin') }}</a></li>
+        <li class="nav-item nav-perfil ms-3"><a class="nav-link" href="{{ route('perfil') }}">{{ __('layout.profile') }}</a></li>
         <li class="nav-item">
             <select class="form-select form-select-sm ms-3" onchange="cambiarIdioma(this.value)">
-                <option value="es" selected>Español</option>
+                <option value="es" {{ app()->getLocale() == 'es' ? 'selected' : '' }}>{{ __('layout.spanish') }}</option>
             </select>
         </li>
        
@@ -55,7 +57,7 @@
 </main>
 
 <footer>
-    <p>&copy; 2025 PlayCode. Todos los derechos reservados.</p>
+    <p>{{ __('layout.footer') }}</p>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -66,7 +68,6 @@
         window.location.href = "{{ route('home') }}";
     }
 </script>
-
 
 </body>
 </html>

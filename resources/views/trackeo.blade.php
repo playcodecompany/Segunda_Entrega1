@@ -17,32 +17,27 @@
     <div class="juego-container">
         <div class="panel-izq">
             <div class="trackeo-reglas" style="max-height:300px; overflow-y:auto; border:1px solid #ccc; padding:10px; border-radius:5px; margin-top:10px;"> 
-                <h4>Reglas de los Recintos</h4> 
+                 <h4>{{ __('partida.rules_title') }}</h4>
                 <ul> 
-                    <li><strong>El Bosque Uniforme:</strong> Solo animales de la misma especie. Se colocan de izquierda a derecha. Puntos: 2, 4, 8, 12, 18, 24.</li> 
-                    <li><strong>El Prado Variado:</strong> Solo animales distintos. Se colocan de izquierda a derecha. Puntos: 1, 3, 6, 10, 15, 21.</li> 
-                    <li><strong>El Desierto del Amor:</strong> Cada pareja de animales iguales suma 5 puntos. Animales sin pareja no suman.</li> 
-                    <li><strong>El Refugio Trío:</strong> Hasta 3 animales. Exactamente 3 animales colocados suman 7 puntos.</li> 
-                    <li><strong>El Trono del Animal:</strong> Solo 1 animal. Al final gana 7 puntos el jugador que tenga más de esa especie en su tablero. En empate, ambos ganan 7.</li> 
-                    <li><strong>La Isla Única:</strong> Solo 1 animal. Al final suma 7 puntos si es el único de su especie en tu parque.</li> 
-                    <li><strong>El Río:</strong> Cada animal colocado suma 1 punto.</li> 
+                   <li><strong>{{ __('partida.rules.bosque') }}</strong></li>
+                    <li><strong>{{ __('partida.rules.prado') }}</strong></li>
+                    <li><strong>{{ __('partida.rules.desierto') }}</strong></li>
+                    <li><strong>{{ __('partida.rules.refugio') }}</strong></li>
+                    <li><strong>{{ __('partida.rules.trono') }}</strong></li>
+                    <li><strong>{{ __('partida.rules.isla') }}</strong></li>
+                    <li><strong>{{ __('partida.rules.rio') }}</strong></li>
                 </ul> 
-                <h4>Modo de 2 jugadores</h4>
+                <h4>{{ __('partida.rules_mode_title') }}</h4>
                 <ul>
-                    <li>Se juega en 4 rondas en lugar de 2.</li>
-                    <li>2 animales de cada especie se devuelven a la caja antes de comenzar.</li>
-                    <li>Al principio de cada ronda, cada jugador toma 6 animales al azar.</li>
-                    <li>Solo se pueden colocar 3 por ronda.</li>
-                    <li>Después de colocar, devuelven 1 animal a la caja.</li>
-                    <li>Intercambian los restantes.</li>
-                    <li>Al final de la ronda 4, cada uno tendrá 12 animales.</li>
+                    @foreach(__('partida.rules_mode') as $rule)
+                        <li>{{ $rule }}</li>
+                    @endforeach
                 </ul>
             </div>
 
             <div class="dado" style="text-align:center; margin-top:20px;">
-                <div id="visorDado" style="font-size:2em; margin-bottom:10px;">-</div>
-                <p>Resultado: <span id="valorDado">-</span></p>
-                <button class="btn-registrar" id="btnTirarDado">Tirar Dado</button>
+                <p>{{ __('partida.dice_result') }} <span id="valorDado">-</span></p>
+                <button class="btn-registrar">{{ __('partida.dice_button') }}</button>
             </div>
         </div>
 
@@ -55,53 +50,48 @@
 
         <div class="panel-der">
             <div class="ronda" style="text-align:center;">
-                <h3>Ronda <span id="numRonda">1</span></h3>
-                <p>Turno de: <strong id="jugadorActual" class="parpadeo-jugador"></strong></p>
+                <h3>{{ __('partida.round') }} <span id="numRonda">1</span></h3>
+                    <p>{{ __('partida.turn_of') }} <strong id="jugadorActual" class="parpadeo-jugador"></strong></p>
             </div>
 
             <div class="tracker">
-                <h3>Trackeo</h3>
+                <h3>{{ __('partida.tracking') }}</h3>
                 <form id="formTrackeo">
                     <label for="animal">Animal:</label>
                     <select id="animal" name="animal" required>
-                        <option value="Tortuga">Tortuga</option>
-                        <option value="Camello">Camello</option>
-                        <option value="Caracol">Caracol</option>
-                        <option value="Serpiente">Serpiente</option>
-                        <option value="Conejo">Conejo</option>
-                        <option value="Ratón">Ratón</option>
+                         @foreach(__('partida.animales') as $key => $label)
+                        <option value="{{ $key }}">{{ $label }}</option>
+                    @endforeach
                     </select>
 
-                    <label for="recinto">Recinto:</label>
+                     <label for="recinto">{{ __('partida.enclosure_label') }}</label>
                     <select id="recinto" name="recinto" required>
-                        <option value="El Bosque Uniforme">El Bosque Uniforme</option>
-                        <option value="El Prado Variado">El Prado Variado</option>
-                        <option value="La Isla Única">La Isla Única</option>
-                        <option value="El Desierto del Amor">El Desierto del Amor</option>
-                        <option value="El Refugio Trío">El Refugio Trío</option>
-                        <option value="El Trono del Animal">El Trono del Animal</option>
-                        <option value="El Río">El Río</option>
+                        @foreach(__('partida.recintos') as $key => $label)
+                        <option value="{{ $label }}">{{ $label }}</option>
+                    @endforeach
                     </select>
 
-                    <button type="button" class="btn-registrar" id="btnRegistrar">Registrar Movimiento</button>
+                    <button type="button" class="btn-registrar" id="btnRegistrar">
+                    {{ __('partida.register_button') }}
+                </button>
                 </form>
                 
 
-        <button type="button" id="btnFinalizar" class="btn-turno" style="margin-top:10px;">Finalizar Partida</button>
-
+                <button type="button" id="btnFinalizar" class="btn-turno" style="margin-top:10px;">
+                {{ __('partida.finish_button') }}
             </div>
         </div>
 
         <div class="panel-registro" style="display:flex; gap:20px; margin-top:20px;">
             <div style="flex:2;">
-                <h3>Registro de Movimientos</h3>
+                <h3>{{ __('partida.movements_title') }}</h3>
                 <table id="tablaRegistro" class="table table-bordered">
                     <thead>
                         <tr>
-                            <th>Jugador</th>
-                            <th>Animal</th>
-                            <th>Recinto</th>
-                            <th>Ronda</th>
+                            <th>{{ __('partida.table_player') }}</th>
+                            <th>{{ __('partida.table_animal') }}</th>
+                            <th>{{ __('partida.table_enclosure') }}</th>
+                            <th>{{ __('partida.table_round') }}</th>
                         </tr>
                     </thead>
                     <tbody></tbody>
@@ -109,13 +99,13 @@
             </div>
 
             <div style="flex:1;">
-                <h3>Puntuación</h3>
+                 <h3>{{ __('partida.score_title') }}</h3>
                 <table id="tablaPuntos" class="table table-bordered">
                     <thead>
                         <tr>
-                            <th>Jugador</th>
-                            <th>Puntos</th>
-                            <th>Fichas</th>
+                            <th>{{ __('partida.table_player') }}</th>
+                            <th>{{ __('partida.table_points') }}</th>
+                            <th>{{ __('partida.table_tokens') }}</th>
                         </tr>
                     </thead>
                     <tbody></tbody>

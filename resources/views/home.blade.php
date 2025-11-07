@@ -25,67 +25,60 @@
         </div>
     </div>
     <div class="col-lg-6">
-        <h2>¡Bienvenid@ a <span class="play">Play</span><span class="code">Code</span>!</h2>
+        <h2>{{ __('home.title', ['play' => 'PlayCode']) }}</h2>
         <p class="lead">
-            Unite a la mesa digital para aprender, competir y divertirte.<br />
-            No hace falta instalar nada: jugá directo desde el navegador, donde y cuando quieras.<br /><br />
-            Cientos de <strong>jugadores</strong> ya disfrutan de <strong>Animaldraft</strong> (inspirado en Draftosaurus) y otros juegos interactivos.<br />
-            <strong>Gratis, fácil y muy divertido.</strong>
+            {{ __('home.intro') }}<br />
+            {{ __('home.description') }}<br /><br />
+            {{ __('home.more_info') }}
         </p>
         <div class="mt-3">
-            <a href="{{ url('/iniciosesion') }}" class="boton-inicioregistro me-2">Iniciar sesión</a>
-            <a href="{{ url('/registro') }}" class="boton-inicioregistro">Registrarse</a>
+            <a href="{{ url('/iniciosesion') }}" class="boton-inicioregistro me-2">{{ __('home.login') }}</a>
+            <a href="{{ url('/registro') }}" class="boton-inicioregistro">{{ __('home.register') }}</a>
         </div>
     </div>
 </section>
 <!-- Sección de información de la empresa -->
 <section class="seccion-empresa">
-    <h3>Nuestra Empresa</h3>
-    <p>
-        <strong>PlayCode</strong> es líder en soluciones digitales de entretenimiento y juegos de mesa interactivos. 
-        Nuestra plataforma permite a los usuarios disfrutar de juegos innovadores desde cualquier dispositivo, fomentando la interacción y diversión.
-    </p>
+    <h3>{{ __('home.company_title') }}</h3>
+    <p>{{ __('home.company_text') }}</p>
+    
 
     <div class="row mision-vision mt-4">
         <div class="col-md-6">
-            <h4>Misión</h4>
-            <p>
-                Nuestra misión es diseñar y desarrollar soluciones físicas e informáticas en base a tendencias innovadoras que mejoren la experiencia de juego de los clientes. 
-                Nos enfocamos en ofrecer productos accesibles, fáciles de usar y visualmente agradables, optimizando la dinámica entre jugadores y fomentando el interés por las aplicaciones tecnológicas en entretenimiento.
-            </p>
+            <h4>{{ __('home.mission_title') }}</h4>
+            <p>{{ __('home.mission_text') }}</p>
+
         </div>
         <div class="col-md-6">
-            <h4>Visión</h4>
-            <p>
-                Aspiramos a que nuestra empresa se convierta en una referencia digital de juegos de mesa, reconocida por su funcionalidad, precisión y calidad técnica. 
-                Buscamos expandir nuestros productos a torneos, modalidades multijugador online y sistemas de ranking, convirtiéndonos en un modelo escalable y adaptable.
-            </p>
+            <h4>{{ __('home.vision_title') }}</h4>
+                 <p>{{ __('home.vision_text') }}</p>
         </div>
     </div>
 </section>
 
 <!-- Opiniones ficticias de usuarios -->
 <section class="opiniones mb-5">
-    <h3 class="text-center mb-4">Lo que dicen nuestros usuarios</h3>
+    <h3>{{ __('home.opinions_title') }}</h3>
+
     <div class="row">
         <div class="col-md-4 mb-3">
             <div class="card h-100">
                 <div class="card-body">
-                    <p class="card-text">"Me encanta PlayCode, puedo jugar con mis amigos desde cualquier lugar." – <strong>Ana P.</strong></p>
+                    <p>{{ __('home.opinion_1') }}</p>
                 </div>
             </div>
         </div>
         <div class="col-md-4 mb-3">
             <div class="card h-100">
                 <div class="card-body">
-                    <p class="card-text">"La plataforma es muy intuitiva y el juego es muy entretenido. ¡Recomendado!" – <strong>Lucas M.</strong></p>
+                    <p>{{ __('home.opinion_2') }}</p>
                 </div>
             </div>
         </div>
         <div class="col-md-4 mb-3">
             <div class="card h-100">
                 <div class="card-body">
-                    <p class="card-text">"Me sorprendió la calidad y el diseño del juego. Definitivamente seguiré usando PlayCode." – <strong>Sofía R.</strong></p>
+                    <p>{{ __('home.opinion_3') }}</p>
                 </div>
             </div>
         </div>

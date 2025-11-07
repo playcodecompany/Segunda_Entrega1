@@ -6,13 +6,16 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PartidaController;
 use App\Http\Controllers\PerfilController;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
-// --------------------
-// Rutas públicas
-// --------------------
 
-// Página principal
-Route::get('/', function () {
+
+Route::group(
+[
+	'prefix' => LaravelLocalization::setLocale(),
+	'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]
+], function(){ //...
+    Route::get('/', function () {
     return view('home');
 })->name('home');
 
@@ -69,4 +72,5 @@ Route::get('/partidas/{partida}/resumen', [PartidaController::class, 'resumenPar
 
     
 
+});
 });
