@@ -134,7 +134,7 @@
             <button class="btn-nav right" id="merchNext">&#10095;</button>
 
             <div id="merchContainer" class="merch-container">
-                @for ($i = 1; $i <= 15; $i++)
+                @for ($i = 1; $i <= 13; $i++)
                     <div class="merch-item">
                         <div class="imagen-dual">
                             <img src="{{ asset('imagenes/merch' . $i . '_frente.jpg') }}" 

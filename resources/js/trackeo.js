@@ -39,13 +39,13 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const capacidad = {
-        'El Bosque Uniforme': 6,
-        'El Prado Variado': 6,
-        'El Desierto del Amor': 12,
-        'El Refugio Trío': 3,
-        'El Trono del Animal': 1,
-        'La Isla Única': 1,
-        'El Río': 12
+        'bosque': 6,
+        'prado': 6,
+        'desierto': 12,
+        'refugio': 3,
+        'trono': 1,
+        'isla': 1,
+        'río': 12
     };
 
     function actualizarJugador() {
@@ -134,42 +134,42 @@ document.addEventListener('DOMContentLoaded', () => {
             const animalesRecinto = parque[jugador.id][r];
             let puntos = 0;
             switch(r) {
-                case 'El Bosque Uniforme':
+                case 'bosque':
                     if (animalesRecinto.every(a => a === animalesRecinto[0])) {
                         const n = animalesRecinto.length;
                         const puntosPorLugar = [2,4,8,12,18,24];
                         puntos = puntosPorLugar[n-1] || 0;
                     }
                     break;
-                case 'El Prado Variado':
+                case 'prado':
                     const distintos = new Set(animalesRecinto);
                     if (distintos.size === animalesRecinto.length) {
                         const puntosPorLugar = [1,3,6,10,15,21];
                         puntos = puntosPorLugar[animalesRecinto.length-1] || 0;
                     }
                     break;
-                case 'El Desierto del Amor':
+                case 'desierto':
                     const counts = {};
                     animalesRecinto.forEach(a => counts[a] = (counts[a]||0)+1);
                     for (const c in counts) puntos += Math.floor(counts[c]/2)*5;
                     break;
-                case 'El Refugio Trío':
+                case 'refugio':
                     if (animalesRecinto.length === 3) puntos = 7;
                     break;
-                case 'El Trono del Animal':
+                case 'trono':
                     animalesRecinto.forEach(a => {
                         const maxOtros = Math.max(...jugadores.filter(j2=>j2.id!==jugador.id).map(j2=>(parque[j2.id][r]||[]).filter(x=>x===a).length));
                         if (animalesRecinto.filter(x=>x===a).length >= maxOtros) puntos = 7;
                     });
                     break;
-                case 'La Isla Única':
+                case 'isla':
                     if (animalesRecinto.length === 1) {
                         const especie = animalesRecinto[0];
                         const totalEspecie = Object.values(parque[jugador.id]).flat().filter(x=>x===especie).length;
                         puntos = totalEspecie === 1 ? 7 : 0;
                     }
                     break;
-                case 'El Río':
+                case 'rio':
                     puntos = animalesRecinto.length;
                     break;
             }

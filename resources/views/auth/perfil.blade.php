@@ -13,7 +13,9 @@
 
 <div class="perfil-body">
     <h2>{{ __('perfil.avatar_of', ['name' => auth()->user()->name]) }}</h2>
+    <p><strong>ID:</strong> {{ auth()->user()->id }}</p>
     <p>{{ auth()->user()->email }}</p>
+
 
     <div class="perfil-estadisticas"> 
         <div class="estadistica"> 

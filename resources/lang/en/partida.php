@@ -37,6 +37,7 @@ return [
         'r7' => 'At the end of round 4, each player will have 12 animals.',
     ],
 
+    
     // Dice
     'dice_result' => 'Result:',
     'dice_button' => 'Roll Dice',

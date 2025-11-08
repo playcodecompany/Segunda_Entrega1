@@ -455,12 +455,16 @@ tr:hover {
 }
 
 .titulo-animal {
-    color: #28a745;
+    color: #28a745; /* verde */
+    font-weight: 700;
 }
 
 .titulo-draft {
-    color: #d2b48c;
+    color: #d2b48c; /* color arena */
+    font-weight: 700;
 }
+
+
 
 /* Parpadeo jugador actual */
 .parpadeo-jugador {
@@ -504,7 +508,7 @@ h1 {
 }
 
 .btn-nuevo {
-    background: #2ecc71;
+    background: #cc2e2e;
     color: white;
 }
 

@@ -36,6 +36,8 @@ return [
         'r7' => 'Al final de la ronda 4, cada jugador tendrá 12 animales.',
     ],
 
+    
+
     // Dado
     'dice_result' => 'Resultado:',
     'dice_button' => 'Tirar Dado',
