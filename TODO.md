@@ -1,0 +1,4 @@
+- [x] Adjust .juego-container CSS to remove fixed height and prevent footer overlap
+- [x] Add scrolling to .panel-registro for long tables
+- [x] Enhance styling for prettier design: colors, gradients, spacing
+- [x] Test the layout to ensure no overlap

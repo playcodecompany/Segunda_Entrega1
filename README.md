@@ -1,0 +1,9 @@
+# PlayCode
+
+## Integrantes
+Alex López 
+Paula Farías
+Luciana Morales
+
+## Repositorio de documentación
+(https://github.com/playcodecompany/Documentacion_Proyecto)

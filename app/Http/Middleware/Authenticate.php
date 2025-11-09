@@ -1,0 +1,21 @@
+<?php
+
+namespace App\Http\Middleware;
+
+use Illuminate\Auth\Middleware\Authenticate as Middleware;
+
+class Authenticate extends Middleware
+{
+    protected function redirectTo($request)
+    {
+        if (! $request->expectsJson()) {
+            // Si es una ruta de admin
+            if ($request->is('admin/*')) {
+                return route('sesionadmin');
+            }
+
+            // Para rutas de jugadores normales
+            return route('iniciosesion');
+        }
+    }
+}
