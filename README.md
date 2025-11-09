@@ -5,5 +5,5 @@ Alex López
 Paula Farías
 Luciana Morales
 
-## Repositorio de documentación
-(https://github.com/playcodecompany/Documentacion_Proyecto)
+## Manual de usuario
+Se encuentra en la rama Master con Credenciales de prueba
